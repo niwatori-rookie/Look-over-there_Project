@@ -2,7 +2,13 @@
 
 
 ・利用したプログラミング言語やフレームワーク
+----------------------------------------------------
 <br>
+プログラミング言語：Python
+<br>
+フレームワーク：pygame , OpenCV , media pipe , dilb, imutils , numpy , itertools , collections等
+
+
 
 ・プログラムの流れ
 <br>
