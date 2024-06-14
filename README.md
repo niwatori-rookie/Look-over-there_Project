@@ -64,6 +64,8 @@
 <br>
 MLP（多層パーセプトロン）を使って、手のランドマークデータを処理。
 <br>
+<br>
+
 
 
 
@@ -72,7 +74,14 @@ model/point_history_classifier
 <br>
 フィンガージェスチャー認識に関わるファイルを格納するディレクトリです。
 <br>
-以下のファイルが格納されます。
+
+![image](https://github.com/niwatori-rookie/Look-over-there_Project/assets/138978518/35baa9b1-1e4a-4e48-a4ba-3ac4c1ef0751)
+
+<br>
+<br>
+<br>
+
+また以下のファイルが格納されます。
 
 学習用データ(point_history.csv)
 
