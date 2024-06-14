@@ -62,6 +62,24 @@
 ### hand_pose()の処理について
 ----------------------------------------------------
 <br>
+MLP（多層パーセプトロン）を使って、手のランドマークデータを処理。
+<br>
+
+model/point_history_classifier
+
+フィンガージェスチャー認識に関わるファイルを格納するディレクトリです。
+
+
+以下のファイルが格納されます。
+
+学習用データ(point_history.csv)
+
+学習済モデル(point_history_classifier.tflite)
+
+ラベルデータ(point_history_classifier_label.csv)
+
+推論用クラス(point_history_classifier.py)
+
 
 ### face_poseの処理について
 ----------------------------------------------------
