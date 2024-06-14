@@ -52,4 +52,11 @@
 ![image](https://github.com/niwatori-rookie/Look-over-there_Project/assets/138978518/0d136b7f-7ed8-41c2-ab16-1e052562001c)
 
 <br>
+・hand_pose()の処理について
+----------------------------------------------------
+<br>
+・face_pose()の処理について
+<br>
+
+
 ・動画等
