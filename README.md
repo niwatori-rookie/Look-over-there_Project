@@ -53,11 +53,11 @@
 
 <br>
 
-###・hand_pose()の処理について
+### A third-level heading
 ----------------------------------------------------
 <br>
 
-### ・face_pose()の処理について
+### A third-level heading
 
 
 <br>
