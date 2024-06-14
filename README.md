@@ -72,6 +72,165 @@ MLP（多層パーセプトロン）を使って、手のランドマークデ�
 ![image](https://github.com/niwatori-rookie/Look-over-there_Project/assets/138978518/493e1876-9ecd-4536-b04d-ce8c9c29f79c)
 <br>
 <br>
+
+※以下、a.py（モデルの定義と推論）
+このソースコードは、手のランドマークデータを用いた手のジェスチャー認識モデルをTensorFlowを使用して訓練し、保存、評価、推論、TensorFlow Lite形式への変換を行う一連の処理を行っています。具体的な処理内容を以下に説明します。
+
+### ライブラリのインポート
+```python
+import csv
+import numpy as np
+import tensorflow as tf
+from sklearn.model_selection import train_test_split
+```
+- `csv`: CSVファイルの操作用ライブラリ。
+- `numpy`: 数値計算ライブラリ。
+- `tensorflow`: TensorFlowライブラリ。
+- `sklearn.model_selection.train_test_split`: データセットを訓練用とテスト用に分割するための関数。
+
+### 定数の設定
+```python
+RANDOM_SEED = 42
+
+dataset = 'C:/Users/p-user/project/hand-gesture-recognition-using-mediapipe-main/hand-gesture-recognition-using-mediapipe-main/model/keypoint_classifier/keypoint.csv'
+model_save_path = 'C:/Users/p-user/project/hand-gesture-recognition-using-mediapipe-main/hand-gesture-recognition-using-mediapipe-main/model/keypoint_classifier/keypoint_classifier.keras'
+
+NUM_CLASSES = 4
+```
+- `RANDOM_SEED`: 乱数のシード値を設定し、再現性を確保。
+- `dataset`: ランドマークデータが保存されているCSVファイルのパス。
+- `model_save_path`: 訓練後のモデルを保存するパス。
+- `NUM_CLASSES`: クラス数を設定（ここでは4クラス）。
+
+### データの読み込みと分割
+```python
+X_dataset = np.loadtxt(dataset, delimiter=',', dtype='float32', usecols=list(range(1, (21 * 2) + 1)))
+y_dataset = np.loadtxt(dataset, delimiter=',', dtype='int32', usecols=(0))
+X_train, X_test, y_train, y_test = train_test_split(X_dataset, y_dataset, train_size=0.75, random_state=RANDOM_SEED)
+```
+- `X_dataset`: ランドマークデータ（入力データ）を読み込み。
+- `y_dataset`: ラベルデータ（出力データ）を読み込み。
+- `train_test_split`: データを訓練用とテスト用に分割。
+
+### モデルの定義
+```python
+model = tf.keras.models.Sequential([
+    tf.keras.layers.Input((21 * 2, )),
+    tf.keras.layers.Dropout(0.2),
+    tf.keras.layers.Dense(20, activation='relu'),
+    tf.keras.layers.Dropout(0.4),
+    tf.keras.layers.Dense(10, activation='relu'),
+    tf.keras.layers.Dense(NUM_CLASSES, activation='softmax')
+])
+```
+- シーケンシャルモデルを定義。
+- 入力層は42次元（21個のランドマーク×2次元）。
+- 隠れ層にはドロップアウト層と全結合層を配置。
+
+### モデルの概要表示
+```python
+model.summary()  # tf.keras.utils.plot_model(model, show_shapes=True)
+```
+- モデルの構造を表示。
+
+### コールバックの設定
+```python
+cp_callback = tf.keras.callbacks.ModelCheckpoint(
+    model_save_path, verbose=1, save_weights_only=False)
+es_callback = tf.keras.callbacks.EarlyStopping(patience=20, verbose=1)
+```
+- モデルチェックポイント: 訓練中にモデルを保存。
+- 早期停止: 訓練の早期停止を設定。
+
+### モデルのコンパイル
+```python
+model.compile(
+    optimizer='adam',
+    loss='sparse_categorical_crossentropy',
+    metrics=['accuracy']
+)
+```
+- モデルをコンパイル。
+- 最適化関数はAdam、損失関数は`sparse_categorical_crossentropy`。
+
+### モデルの訓練
+```python
+model.fit(
+    X_train,
+    y_train,
+    epochs=1000,
+    batch_size=128,
+    validation_data=(X_test, y_test),
+    callbacks=[cp_callback, es_callback]
+)
+```
+- モデルを訓練。
+- 訓練データと検証データを設定し、コールバックを使用。
+
+### モデルの評価
+```python
+val_loss, val_acc = model.evaluate(X_test, y_test, batch_size=128)
+```
+- テストデータを使用してモデルを評価。
+
+### モデルの保存とロード
+```python
+model.save(model_save_path)
+model = tf.keras.models.load_model(model_save_path)
+```
+- 訓練後のモデルを保存し、再度ロード。
+
+### 推論テスト
+```python
+predict_result = model.predict(np.array([X_test[0]]))
+print(np.squeeze(predict_result))
+print(np.argmax(np.squeeze(predict_result)))
+```
+- テストデータの一部を使って推論を行い、結果を表示。
+
+### TensorFlow Lite形式への変換
+```python
+tflite_save_path = 'C:/Users/p-user/project/hand-gesture-recognition-using-mediapipe-main/hand-gesture-recognition-using-mediapipe-main/model/keypoint_classifier/keypoint_classifier.tflite'
+
+converter = tf.lite.TFLiteConverter.from_keras_model(model)
+converter.optimizations = [tf.lite.Optimize.DEFAULT]
+tflite_quantized_model = converter.convert()
+
+open(tflite_save_path, 'wb').write(tflite_quantized_model)
+```
+- モデルをTensorFlow Lite形式に変換し、量子化。
+- 変換したモデルを保存。
+
+### TensorFlow Liteモデルのロードと推論
+```python
+interpreter = tf.lite.Interpreter(model_path=tflite_save_path)
+interpreter.allocate_tensors()
+
+# 入出力テンソルを取得
+input_details = interpreter.get_input_details()
+output_details = interpreter.get_output_details()
+
+interpreter.set_tensor(input_details[0]['index'], np.array([X_test[0]]))
+
+# 推論実施
+interpreter.invoke()
+tflite_results = interpreter.get_tensor(output_details[0]['index'])
+
+print(np.squeeze(tflite_results))
+print(np.argmax(np.squeeze(tflite_results)))
+```
+- TensorFlow Liteインタープリターを初期化し、テンソルを割り当て。
+- 入力テンソルにデータをセットし、推論を実行。
+- 結果を表示。
+
+この一連の処理により、手のランドマークデータを使用して手のジェスチャーを分類するモデルを訓練し、TensorFlow Lite形式に変換して軽量化されたモデルを使って推論を行うことができます。
+
+<br>
+<br>
+<br>
+<br>
+
+
 model/point_history_classifier
 <br>
 フィンガージェスチャー認識に関わるファイルを格納するディレクトリです。
