@@ -272,3 +272,6 @@ https://tpsxai.com/raspberrypi_tensorflow_lite/
 
 https://github.com/Kazuhito00/hand-gesture-recognition-using-mediapipe?tab=readme-ov-file
 
+｛最適化関数　Adamについて｝
+<br>
+https://qiita.com/Fumio-eisan/items/798351e4915e4ba396c2
