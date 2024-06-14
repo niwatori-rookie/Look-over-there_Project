@@ -69,7 +69,9 @@ MLP（多層パーセプトロン）を使って、手のランドマークデ�
 ![image](https://github.com/niwatori-rookie/Look-over-there_Project/assets/138978518/35baa9b1-1e4a-4e48-a4ba-3ac4c1ef0751)
 <br>
 <br>
-
+![image](https://github.com/niwatori-rookie/Look-over-there_Project/assets/138978518/493e1876-9ecd-4536-b04d-ce8c9c29f79c)
+<br>
+<br>
 model/point_history_classifier
 <br>
 フィンガージェスチャー認識に関わるファイルを格納するディレクトリです。
