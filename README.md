@@ -283,3 +283,7 @@ https://qiita.com/Fumio-eisan/items/798351e4915e4ba396c2
 ｛正規化と標準化について｝
 <br>
 https://qiita.com/yShig/items/dbeb98598abcc98e1a57
+<br>
+｛顔の向き、dlibについて｝
+<br>
+https://qiita.com/oozzZZZZ/items/1e68a7572bc5736d474e
