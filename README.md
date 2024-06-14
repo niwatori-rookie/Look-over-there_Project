@@ -261,6 +261,8 @@ model/point_history_classifier
 ### face_poseの処理について
 ----------------------------------------------------
 
+**dlibを使って顔の向き（yaw、pitch、roll）を推定。**
+
 <br>
 
 
@@ -287,3 +289,5 @@ https://qiita.com/yShig/items/dbeb98598abcc98e1a57
 ｛顔の向き、dlibについて｝
 <br>
 https://qiita.com/oozzZZZZ/items/1e68a7572bc5736d474e
+<br>
+https://pyimagesearch.com/2017/04/03/facial-landmarks-dlib-opencv-python/
