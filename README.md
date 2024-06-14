@@ -1,3 +1,5 @@
+
+
 # あっち向いてほい（以下再編集したもの）
 
 
@@ -275,3 +277,8 @@ https://github.com/Kazuhito00/hand-gesture-recognition-using-mediapipe?tab=readm
 ｛最適化関数　Adamについて｝
 <br>
 https://qiita.com/Fumio-eisan/items/798351e4915e4ba396c2
+<br>
+<br>
+｛正規化と標準化について｝
+<br>
+https://qiita.com/yShig/items/dbeb98598abcc98e1a57
